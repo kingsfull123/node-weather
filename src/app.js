@@ -17,6 +17,24 @@ app.get('/', (req, res) => {
     })
 })
 
+app.get('/about', (req, res) => {
+    res.render('about', {
+        title: 'About Page'
+    })
+})
+
+app.get('/help', (req, res) => {
+    res.render('help', {
+        title: 'Help Page'
+    })
+})
+
+app.get('*', (req, res) => {
+    res.render('404', {
+        title: '404 Page'
+    })
+})
+
 app.listen(port, () => {
     console.log(`Server is running at port ${port}`)
 })
