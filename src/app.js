@@ -2,6 +2,7 @@ const express = require('express');
 const port = process.env.PORT || 3000;
 const path = require('path');
 const hbs = require('hbs');
+const SundayWeather = require('../models/data');
 const publicPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
@@ -14,6 +15,18 @@ app.use(express.static(publicPath));
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'Home Page'
+    })
+})
+
+app.post('/', (req, res) => {
+    const data = new SundayWeather({
+        location: 'Boston',
+        weather: 'Sunny'
+    });
+    data.save().then((result) => {
+        console.log(result);
+    }).catch(error => {
+        console.log(error);
     })
 })
 
