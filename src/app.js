@@ -3,6 +3,7 @@ const port = process.env.PORT || 3000;
 const path = require('path');
 const hbs = require('hbs');
 const SundayWeather = require('../models/data');
+const request = require('request');
 const publicPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
@@ -39,6 +40,23 @@ app.get('/about', (req, res) => {
 app.get('/help', (req, res) => {
     res.render('help', {
         title: 'Help Page'
+    })
+})
+app.get('/update', (req, res) => {
+    // const url = 'http://api.weatherstack.com/current?access_key=933989b3c3a0b1fb30c5dcac0427eb78&query=New York';
+    const url = 'http://api.weatherstack.com/current?access_key=933989b3c3a0b1fb30c5dcac0427eb78&query=New York';
+    request({ url, json: true }, (error, response) => {
+        if (error) {
+            console.log(error)
+        } else {
+            const location = response.body.location.name;
+            const temp = response.body.current.temperature;
+            res.render('update', {
+                title: 'Update Weather Page',
+                location: location,
+                temp: temp
+            })
+        }
     })
 })
 
